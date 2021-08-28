@@ -1,7 +1,7 @@
 const express = require("express");
 const cookieparser = require("cookie-parser");
 const app = express();
-const port = 8000;
+const port = 8001;
 const expressLayouts = require("express-ejs-layouts");
 const db = require("./config/mongoose");
 
@@ -41,6 +41,7 @@ app.use(
 app.use(passport.initialize());
 app.use(passport.session());
  
+app.use(passport.setAuthenticatedUser);
 // use express router
 app.use("/", require("./routes"));
 
