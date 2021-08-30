@@ -1,4 +1,14 @@
-module.exports.posts=function(req,res)
+const Post=require('../models/post')
+module.exports.create=function(req,res)
 {
-return res.render("<h1>post are here</h1>")
+Post.create({
+    content:req.body.content,
+    user:req.user._id
+},function(err,post){
+    if(err)
+    {
+        console.log('error in creating the post')
+        return res.redirect('back')
+    }
+})
 }
