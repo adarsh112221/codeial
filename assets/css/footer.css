@@ -1,0 +1,14 @@
+footer {
+  background-color: #737573;
+  padding: 20px;
+  display: flex;
+  font-size: 20px; }
+
+#abcd {
+  display: flex;
+  flex-direction: column;
+  font-size: 20px;
+  padding-left: 20px; }
+  #abcd a {
+    color: black;
+    text-decoration: none; }
