@@ -16,13 +16,23 @@
   <%}%>
 </section>
 <ul>
-  <%for(let post of posts){%>
+  <%for(let post of posts){%><li>
     <p>
-  <li> <%=post.content%></li>
+   <%=post.content%>
   </br>
   <small>
       <%=post.user.name%>
   </small>
 </p>
+<div class="post-comments">
+  <%if(locals.user){%>
+   <form action="/comments/create" method="POST">
+   <input type="text" name="content" placeholder="Type Here To Add Comment ...">
+   <input type="hidden" value="<%=post._id%>" name="post">
+   <input type="submit" value="Add Comment">
+     
+  </form>
+  <%}%>
+</div></li>
   <%}%>
 </ul>
