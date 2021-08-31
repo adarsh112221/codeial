@@ -2,6 +2,7 @@
 
 <section id="feed-posts">
   <h4>Posts</h4>
+  <%if(locals.user){%>
   <form action="/posts/create" id="new-post-form" method="POST">
     <textarea
       placeholder="Type Here .."
@@ -12,6 +13,7 @@
     ></textarea>
     <input type="submit" value="Post" />
   </form>
+  <%}%>
 </section>
 <ul>
   <%for(let post of posts){%>
