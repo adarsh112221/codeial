@@ -10,5 +10,6 @@ Post.create({
         console.log('error in creating the post')
         return res.redirect('back')
     }
+    return res.redirect('back')
 })
 }
