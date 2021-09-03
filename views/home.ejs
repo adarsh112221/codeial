@@ -1,6 +1,4 @@
-<h1>
-  Codeial / <%=title%>
-</h1>
+<h1>Codeial / <%=title%></h1>
 
 <section id="feed-posts">
   <h4>Posts</h4>
@@ -17,8 +15,17 @@
   </form>
   <%}%>
   <ul>
-    <%for( post of posts){%>
-      <%- include('_post') -%>
-    <%}%>
+    <%for( post of posts){%> <%- include('_post') -%> <%}%>
   </ul>
+</section>
+
+<section id="user-friends">
+  <h4>Friends</h4>
+  <%for(u of all_users){%>
+
+  <p>
+    <a href="/users/profile/<%=u.id%>"><%=u.name%></a>
+  </p>
+
+  <%}%>
 </section>
