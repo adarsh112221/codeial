@@ -1,31 +1,41 @@
 const User = require("../models/user");
 module.exports.profile = function (req, res) {
-  User.findById(req.params.id,function(err,user)
-  {
-    res.render("user_profile",{
-      title:'User Profile',
-      profile_user:user
+  User.findById(req.params.id, function (err, user) {
+    res.render("user_profile", {
+      title: "User Profile",
+      profile_user: user,
     });
+  });
+};
 
-  })
+module.exports.update = function (req, res) {
+  if (req.user.id == req.params.id) {
+    User.findByIdAndUpdate(
+      req.params.id,
+      { name: req.body.name, email: req.body.email },
+      function (err, user) {
+        return res.redirect("back");
+      }
+    ); //you can also use req.body directly
+  } else {
+    return res.status(401).send("Unauthorised");
+  }
 };
 
 module.exports.email = function (req, res) {
   res.end("<h1>this is email of the user</h1>");
 };
 module.exports.signin = function (req, res) {
-  if(req.isAuthenticated())
-  {
-    return res.redirect('/users/profile')
+  if (req.isAuthenticated()) {
+    return res.redirect("/users/profile");
   }
   res.render("user_sign_in", {
     title: "Codeial | Sign Up",
   });
 };
 module.exports.signup = function (req, res) {
-  if(req.isAuthenticated())
-  {
-    return res.redirect('/users/profile')
+  if (req.isAuthenticated()) {
+    return res.redirect("/users/profile");
   }
   res.render("user_sign_up", {
     title: "Codeial | Sign Up",
@@ -56,15 +66,11 @@ module.exports.create = function (req, res) {
 };
 //sign-in and create the session
 module.exports.createSession = function (req, res) {
-  
- return res.redirect('/');
-}
+  return res.redirect("/");
+};
 
-module.exports.destroySession=function(req,res)
-{
-req.logout();      //this function is given by passport.js
+module.exports.destroySession = function (req, res) {
+  req.logout(); //this function is given by passport.js
 
-
-
-  return res.redirect("/")
-}
+  return res.redirect("/");
+};
