@@ -14,10 +14,12 @@ module.exports.update = function (req, res) {
       req.params.id,
       { name: req.body.name, email: req.body.email },
       function (err, user) {
+      req.flash("success", "UserProfile Updated successfully");
         return res.redirect("back");
       }
     ); //you can also use req.body directly
   } else {
+    req.flash("error", "Unauthorised");
     return res.status(401).send("Unauthorised");
   }
 };
