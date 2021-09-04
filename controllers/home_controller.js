@@ -13,7 +13,7 @@ module.exports.home = async function (req, res) {
   //populate the user of each
   try {
     let posts = await Post.find({})
-      .populate({path:"user"})
+      .populate("user")
       .populate({
         path: "comments",
         populate: {
@@ -28,7 +28,7 @@ module.exports.home = async function (req, res) {
       posts: posts,
       all_users: users,
     });
-  } catch (err) { 
+  } catch (err) {
     console.log("Error", err);
   }
 };
