@@ -1,32 +1,31 @@
-{ //method to submit the form data using ajax
+{
+  //method to submit the form data using ajax
   let createPost = function () {
     let newPostForm = $("#new-post-form");
     newPostForm.submit(function (e) {
       e.preventDefault(); //now the post wont submit and we have to do it manually using ajax
       $.ajax({
-          type:'post',
-          url:'/posts/create',
-          data:newPostForm.serialize(),
-          success:function(data){
-            let newPost=newPostDom(data.data.post);
-            $('#posts-list-container>ul').prepend(newPost);
-          },
-          error: function(error)
-          {
-              console.log(error.responseText);
-          }
-
-      })
+        type: "post",
+        url: "/posts/create",
+        data: newPostForm.serialize(),
+        success: function (data) {
+          let newPost = newPostDom(data.data.post);
+          $("#posts-list-container>ul").prepend(newPost);
+          deletePost($(' .delete-post-button',newPost)) //this object has this class inside it
+        },
+        error: function (error) {
+          console.log(error.responseText);
+        },
+      });
     });
   };
   //method to create a post in dom
-  let newPostDom=function(post)
-  {
+  let newPostDom = function (post) {
     return $(`<li id="post-${post._id}">
     <p>
      
       <small>
-        <a class="delete-post-button" href="/posts/destroy/${post.id}">X</a>
+        <a class="delete-post-button" href="/posts/destroy/${post._id}">X</a>
       </small>
       ${post.content}
   </br>
@@ -45,9 +44,24 @@
     <ul id="post-comment-${post._id}">
     </ul>
   </div>
-  </div></li>`)}
-    
-
+  </div></li>`);
+  };
+  //method to delete the post
+  let deletePost = function (deleteLink) {
+    $(deleteLink).click(function (e) {
+      e.preventDefault();
+      $.ajax({
+        type: "get",
+        url: $(deleteLink).prop('href'),
+        success: function (data) {
+          $(`#post-${data.data.post_id}`).remove();
+        },
+        error: function (error) {
+          console.log(error.responseText);
+        },
+      });
+    });
+  };
 
   createPost();
 }
