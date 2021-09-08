@@ -14,9 +14,11 @@
       <input type="submit" value="Post" />
     </form>
     <%}%>
+  <div id="posts-list-container">
     <ul>
       <%for( post of posts){%> <%- include('_post') -%> <%}%>
     </ul>
+  </div>
   </section>
 
   <section id="user-friends">
