@@ -1,3 +1,4 @@
+
 {
   //method to submit the form data using ajax
   let createPost = function () {
@@ -8,10 +9,12 @@
         type: "post",
         url: "/posts/create",
         data: newPostForm.serialize(),
-        success: function (data) {
+        success: function(data){
           let newPost = newPostDom(data.data.post);
           $("#posts-list-container>ul").prepend(newPost);
-          deletePost($(' .delete-post-button',newPost)) //this object has this class inside it
+          deletePost($(" .delete-post-button", newPost)); //this object has this class inside it
+           createComment(data.data.post._id);
+
         },
         error: function (error) {
           console.log(error.responseText);
@@ -34,14 +37,14 @@
   </small>
   </p>
   <div class="post-comments">
-   <form action="/comments/create" method="POST">
+   <form id="new-${ post._id }-comments-form" action="/comments/create" method="POST">
    <input type="text" name="content" placeholder="Type Here To Add Comment ...">
    <input type="hidden" value="${post._id}" name="post">
    <input type="submit" value="Add Comment">
      
   </form>
   <div class="post-comments-list">
-    <ul id="post-comment-${post._id}">
+    <ul id="post-comments-${post._id}">
     </ul>
   </div>
   </div></li>`);
@@ -52,7 +55,7 @@
       e.preventDefault();
       $.ajax({
         type: "get",
-        url: $(deleteLink).prop('href'),
+        url: $(deleteLink).prop("href"),
         success: function (data) {
           $(`#post-${data.data.post_id}`).remove();
         },
@@ -62,6 +65,19 @@
       });
     });
   };
+  convertdeletetoAjax=function()
+  {
+    $('#posts-list-container>ul>li').each(function()
+    {
+      let self=$(this);
+      let deleteButton=$(' .delete-post-button', self);
+      deletePost(deleteButton);
+      let postId = self.prop('id').split("-")[1];
+      createComment(postId);
+    })
 
+  }
   createPost();
+  convertdeletetoAjax();
+
 }

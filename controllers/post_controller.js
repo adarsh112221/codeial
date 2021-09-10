@@ -2,18 +2,18 @@ const Post = require("../models/post");
 const Comment = require("../models/comment");
 module.exports.create = async function (req, res) {
   try {
-    let post=await Post.create({
+    let post = await Post.create({
       content: req.body.content,
       user: req.user._id,
     });
-    if(req.xhr)
-    {
+    let post1 = await Post.findById(post._id,).populate("user","name");
+    if (req.xhr) {
       return res.status(200).json({
-        data:{
-          post:post
+        data: {
+          post: post1,
         },
-        message:'Post created'
-      })
+        message: "Post created",
+      });
     }
     req.flash("success", "Post created successfully");
     return res.redirect("back");
@@ -30,14 +30,13 @@ module.exports.destroy = async function (req, res) {
     if (post.user == req.user.id) {
       post.remove(); //to remove post from the database
       await Comment.deleteMany({ post: req.params.id });
-      if(req.xhr)
-      {
+      if (req.xhr) {
         return res.status(200).json({
-          data:{
-            post_id:req.params.id 
+          data: {
+            post_id: req.params.id,
           },
-          message:'post removed'
-        })
+          message: "post removed",
+        });
       }
       req.flash("success", "Post Deleted successfully");
 

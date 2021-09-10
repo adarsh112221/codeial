@@ -4,17 +4,25 @@ module.exports.create = async function (req, res) {
   try {
     let post = await Post.findById(req.body.post);
     if (post) {
-      let comment=await Comment.create({
+      let comment = await Comment.create({
         content: req.body.content,
         post: req.body.post,
         user: req.user._id,
       });
+      let comment1 = await Comment.findById(comment._id).populate("post").populate("user","name");
+      if (req.xhr) {
+        return res.status(200).json({
+          data: {
+            comment: comment1,
+          },
+          message: "comment created",
+        });
+      }
       req.flash("success", "Comment Created successfully");
       post.comments.push(comment);
       post.save();
       res.redirect("/");
     }
-
   } catch (err) {
     console.log("error", err);
   }
@@ -45,7 +53,7 @@ module.exports.destroy = function (req, res) {
       let postId = comment.post;
       comment.remove(); //to remove the comment from the db
       req.flash("success", "Comment Deleted successfully");
-      
+
       Post.findByIdAndUpdate(
         postId,
         { $pull: { comments: req.params.id } },
