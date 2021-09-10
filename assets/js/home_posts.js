@@ -10,6 +10,14 @@
         url: "/posts/create",
         data: newPostForm.serialize(),
         success: function(data){
+          new Noty({
+            theme: 'relax',
+            text: "post created succefully",
+            type: 'success',
+            layout: 'topRight',
+            timeout: 1500
+            
+        }).show();
           let newPost = newPostDom(data.data.post);
           $("#posts-list-container>ul").prepend(newPost);
           deletePost($(" .delete-post-button", newPost)); //this object has this class inside it
@@ -57,7 +65,15 @@
         type: "get",
         url: $(deleteLink).prop("href"),
         success: function (data) {
-          $(`#post-${data.data.post_id}`).remove();
+          new Noty({
+            theme: 'relax',
+            text: "post deleted",
+            type: 'success',
+            layout: 'topRight',
+            timeout: 1500
+            
+        }).show();
+        $(`#post-${data.data.post_id}`).remove();
         },
         error: function (error) {
           console.log(error.responseText);
@@ -73,11 +89,15 @@
       let deleteButton=$(' .delete-post-button', self);
       deletePost(deleteButton);
       let postId = self.prop('id').split("-")[1];
+      convertdeletetoAjax1(postId);
       createComment(postId);
     })
 
   }
+  
+  
   createPost();
   convertdeletetoAjax();
+  createComment();
 
 }

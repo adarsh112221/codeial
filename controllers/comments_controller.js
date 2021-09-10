@@ -9,7 +9,11 @@ module.exports.create = async function (req, res) {
         post: req.body.post,
         user: req.user._id,
       });
-      let comment1 = await Comment.findById(comment._id).populate("post").populate("user","name");
+      post.comments.push(comment);
+      post.save();
+      let comment1 = await Comment.findById(comment._id)
+        .populate("post")
+        .populate("user", "name");
       if (req.xhr) {
         return res.status(200).json({
           data: {
@@ -18,9 +22,7 @@ module.exports.create = async function (req, res) {
           message: "comment created",
         });
       }
-      req.flash("success", "Comment Created successfully");
-      post.comments.push(comment);
-      post.save();
+
       res.redirect("/");
     }
   } catch (err) {
@@ -52,8 +54,15 @@ module.exports.destroy = function (req, res) {
     if (req.user.id == comment.user) {
       let postId = comment.post;
       comment.remove(); //to remove the comment from the db
-      req.flash("success", "Comment Deleted successfully");
-
+      
+      if (req.xhr) {
+        return res.status(200).json({
+          data: {
+            comment_id: req.params.id,
+          },
+          message: "comment removed",
+        });
+      }
       Post.findByIdAndUpdate(
         postId,
         { $pull: { comments: req.params.id } },
