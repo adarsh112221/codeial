@@ -8,22 +8,45 @@ module.exports.profile = function (req, res) {
   });
 };
 
-module.exports.update = function (req, res) {
+module.exports.update = async function (req, res) {
+  // if (req.user.id == req.params.id) {
+  //   User.findByIdAndUpdate(
+  //     req.params.id,
+  //     { name: req.body.name, email: req.body.email },
+  //     function (err, user) {
+  //     req.flash("success", "UserProfile Updated successfully");
+  //       return res.redirect("back");
+  //     }
+  //   ); //you can also use req.body directly
+  // } else {
+  //   req.flash("error", "Unauthorised");
+  //   return res.status(401).send("Unauthorised");
+  // }
   if (req.user.id == req.params.id) {
-    User.findByIdAndUpdate(
-      req.params.id,
-      { name: req.body.name, email: req.body.email },
-      function (err, user) {
-      req.flash("success", "UserProfile Updated successfully");
-        return res.redirect("back");
-      }
-    ); //you can also use req.body directly
+    try {
+      let user = await User.findByIdAndUpdate(req.params.id);
+      User.updloadedAvatar(req, res, function (err) {
+        if (err) {
+          console.log("******Multer Error", err);
+        }
+        user.name=req.body.name;
+        user.email=req.body.email;
+        if(req.file)
+        { 
+          //we are just saving the location in user,avatar feild to display it later
+          user.avatar=User.avatarPath+'/'+req.file.filename;
+        }
+      user.save();
+      return res.redirect("back");
+      });
+    } catch {
+      return res.status(401).send("Unauthorised");
+    }
   } else {
     req.flash("error", "Unauthorised");
     return res.status(401).send("Unauthorised");
   }
 };
-
 module.exports.email = function (req, res) {
   res.end("<h1>this is email of the user</h1>");
 };
