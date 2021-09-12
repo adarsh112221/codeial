@@ -25,7 +25,8 @@ app.use(
 app.use(express.urlencoded({ extended: false }));
 app.use(cookieparser());
 app.use(express.static("./assets"));
-
+//makes the upload path avilabe to the browser
+app.use('/uploads',express.static(__dirname+'/uploads'))
 app.use(expressLayouts);
 // extract style and scripts from sub pages into the layout
 app.set("layout extractStyles", true);
