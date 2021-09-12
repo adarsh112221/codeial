@@ -1,4 +1,6 @@
 const User = require("../models/user");
+const fs=require('fs');
+const path=require('path');
 module.exports.profile = function (req, res) {
   User.findById(req.params.id, function (err, user) {
     res.render("user_profile", {
@@ -33,6 +35,11 @@ module.exports.update = async function (req, res) {
         user.email=req.body.email;
         if(req.file)
         { 
+          if(user.avatar)
+          {
+            fs.unlink(path.join(__dirname,'..','user.avatar'))
+          }
+
           //we are just saving the location in user,avatar feild to display it later
           user.avatar=User.avatarPath+'/'+req.file.filename;
         }
