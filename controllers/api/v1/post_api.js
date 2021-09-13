@@ -10,7 +10,7 @@ module.exports.index = async function (req, res) {
         path: "user",
       },
     });
-  return res.json(200, { message: "list of posts", posts: posts });
+  return res.status(200).json({ message: "list of posts", posts: posts });
 };
 
 module.exports.destroy = async function (req, res) {
