@@ -6,7 +6,7 @@ module.exports.create = async function (req, res) {
       content: req.body.content,
       user: req.user._id,
     });
-    let post1 = await Post.findById(post._id,).populate("user","name");
+    let post1 = await Post.findById(post._id).populate("user", "name");
     if (req.xhr) {
       return res.status(200).json({
         data: {
