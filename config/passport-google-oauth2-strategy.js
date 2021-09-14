@@ -3,10 +3,9 @@ const googleStrategy = require("passport-google-oauth").OAuth2Strategy;
 const crypto = require("crypto");
 const User = require("../models/user");
 
-
 //tell passport to use a new strategy to google login
 passport.use(
-    //use these details provided by the google 
+  //use these details provided by the google
   new googleStrategy(
     {
       clientID:
@@ -15,7 +14,6 @@ passport.use(
       callbackURL: "http://localhost:8000/users/auth/google/callback",
     },
     function (accessToken, refershToken, profile, done) {
-        
       User.findOne({ email: profile.emails[0].value }).exec(function (
         err,
         user
@@ -26,10 +24,10 @@ passport.use(
         }
         console.log(profile);
         if (user) {
-            //find a user if found set this user as req.user
+          //find a user if found set this user as req.user
           return done(null, user);
         } else {
-            //if not create this user 
+          //if not create this user
           User.create(
             {
               name: profile.displayName,
@@ -40,9 +38,9 @@ passport.use(
               if (err) {
                 console.log("error in finding the user");
                 return;
-              } else {
+              } 
                 return done(null, user);
-              }
+              
             }
           );
         }

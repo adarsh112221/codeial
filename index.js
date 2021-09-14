@@ -8,11 +8,12 @@ const db = require("./config/mongoose");
 const session = require("express-session");
 const passport = require("passport");
 const passportLocal = require("./config/passport-local-strategy");
-const passportJWT=require('./config/passport-jwt-strategy')
+const passportJWT = require("./config/passport-jwt-strategy");
+const passportGoogle = require("./config/passport-google-oauth2-strategy");
 const MongoStore = require("connect-mongo");
 const sassMiddleware = require("node-sass-middleware");
-const flash=require('connect-flash')
-const customMware=require('./config/middleware')
+const flash = require("connect-flash");
+const customMware = require("./config/middleware");
 app.use(
   sassMiddleware({
     src: "./assets/scss",
@@ -27,7 +28,7 @@ app.use(express.urlencoded({ extended: false }));
 app.use(cookieparser());
 app.use(express.static("./assets"));
 //makes the upload path avilabe to the browser
-app.use('/uploads',express.static(__dirname+'/uploads'))
+app.use("/uploads", express.static(__dirname + "/uploads"));
 app.use(expressLayouts);
 // extract style and scripts from sub pages into the layout
 app.set("layout extractStyles", true);
