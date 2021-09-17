@@ -1,5 +1,6 @@
 const Comment = require("../models/comment");
 const Post = require("../models/post");
+const commentsMailers = require("../mailers/commentsmailer");
 module.exports.create = async function (req, res) {
   try {
     let post = await Post.findById(req.body.post);
@@ -11,9 +12,11 @@ module.exports.create = async function (req, res) {
       });
       post.comments.push(comment);
       post.save();
-      let comment1 = await Comment.findById(comment._id)
-        .populate("post")
-        .populate("user", "name");
+      let comment1 = await Comment.findById(comment._id).populate(
+        "user",
+        " email name"
+      );
+      commentsMailers.newComment(comment1)
       if (req.xhr) {
         return res.status(200).json({
           data: {
@@ -54,7 +57,7 @@ module.exports.destroy = function (req, res) {
     if (req.user.id == comment.user) {
       let postId = comment.post;
       comment.remove(); //to remove the comment from the db
-      
+
       if (req.xhr) {
         return res.status(200).json({
           data: {
