@@ -32,15 +32,14 @@ passport.use(
             {
               name: profile.displayName,
               email: profile.emails[0].value,
-              passport: crypto.randomBytes[20].toString("hex"),
+              password: crypto.randomBytes(20).toString("hex"),
             },
             function (err, user) {
               if (err) {
                 console.log("error in finding the user");
                 return;
-              } 
-                return done(null, user);
-              
+              }
+              return done(null, user);
             }
           );
         }
