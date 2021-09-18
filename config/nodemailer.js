@@ -7,8 +7,8 @@ let transpoter = nodemailer.createTransport({
   port:587,
   secure: false,
   auth: {
-    user: "adarshpandey11222",
-    pass: "Adarsh*123#",
+    user: "adarshpandey11222@gmail.com",
+    pass: "",
   },
 });
 //we want to define that we will be using ejs for that we will define a template renderer
