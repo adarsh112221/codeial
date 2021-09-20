@@ -18,22 +18,13 @@ module.exports.create = async function (req, res) {
         "user",
         " email name"
       );
-      console.log(comment1)
-      // commentsMailers.newComment(comment1)
-      //  let job= queue.Crea("emails", comment).save(function (err) {
-      //     if (err) {
-      //       console.log("error in sending the queue");
-      //       return;
-      //     }
-      //     console.log('job enqueud',job.id);//as soon as the job is created the job id is sotred in it
-      //   });
-
+      console.log(comment1);
       let job = queue.create("emails", comment1).save(function (err) {
         if (err) {
           console.log("Error in sending to the queue", err);
           return;
         }
-        console.log("job enqueued", job.id);
+        console.log("job enqueued", job.id); //as soon as the job is created the job id is sotred in it
       });
 
       if (req.xhr) {

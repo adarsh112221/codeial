@@ -34,6 +34,13 @@ router.get(
   passport.authenticate("google", { scope: ["profile", "email"] })
 );
 //this is the url at which we will reciev the data and redirect th user to the home page
-router.get('/auth/google/callback',passport.authenticate('google',{failureRedirect:'/users/sign-in'}),usersController.createSession)
-
+router.get(
+  "/auth/google/callback",
+  passport.authenticate("google", { failureRedirect: "/users/sign-in" }),
+  usersController.createSession
+);
+router.get("/forget-password", usersController.Forgetpass);
+router.post("/new-password", usersController.createnewpass);
+router.get("/create-new-password", usersController.newpass);
 module.exports = router;
+

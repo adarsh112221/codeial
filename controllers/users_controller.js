@@ -1,6 +1,6 @@
 const User = require("../models/user");
-const fs=require('fs');
-const path=require('path');
+const fs = require("fs");
+const path = require("path");
 module.exports.profile = function (req, res) {
   User.findById(req.params.id, function (err, user) {
     res.render("user_profile", {
@@ -31,20 +31,18 @@ module.exports.update = async function (req, res) {
         if (err) {
           console.log("******Multer Error", err);
         }
-        user.name=req.body.name;
-        user.email=req.body.email;
-        if(req.file)
-        { 
-          if(user.avatar)
-          {
-            fs.unlink(path.join(__dirname,'..','user.avatar'))
+        user.name = req.body.name;
+        user.email = req.body.email;
+        if (req.file) {
+          if (user.avatar) {
+            fs.unlink(path.join(__dirname, "..", "user.avatar"));
           }
 
           //we are just saving the location in user,avatar feild to display it later
-          user.avatar=User.avatarPath+'/'+req.file.filename;
+          user.avatar = User.avatarPath + "/" + req.file.filename;
         }
-      user.save();
-      return res.redirect("back");
+        user.save();
+        return res.redirect("back");
       });
     } catch {
       return res.status(401).send("Unauthorised");
@@ -107,4 +105,29 @@ module.exports.destroySession = function (req, res) {
   req.flash("success", "You Have Logged out successfully");
 
   return res.redirect("/");
+};
+
+//forget password
+module.exports.Forgetpass = function (req, res) {
+  return res.render("user_forget_password");
+};
+module.exports.newpass = function (req, res) {
+  return res.render("create_new_password");
+};
+module.exports.createnewpass = function (req, res) {
+  console.log(req.body.email);
+  User.findOne({ email: req.body.email }, function (err, user) {
+    if (err) {
+      console.log("error in finding the user!");
+      req.flash("error", "User not found");
+      return res.redirect("back");
+    }
+    if (user == null) {
+      req.flash("error", "User not found");
+      return res.redirect("back");
+    } else {
+      console.log(user);
+      return res.redirect("/users/create-new-password");
+    }
+  });
 };
