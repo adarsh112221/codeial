@@ -111,11 +111,8 @@ module.exports.destroySession = function (req, res) {
 module.exports.Forgetpass = function (req, res) {
   return res.render("user_forget_password");
 };
-module.exports.newpass = function (req, res) {
-  return res.render("create_new_password");
-};
+
 module.exports.createnewpass = function (req, res) {
-  console.log(req.body.email);
   User.findOne({ email: req.body.email }, function (err, user) {
     if (err) {
       console.log("error in finding the user!");
@@ -126,8 +123,29 @@ module.exports.createnewpass = function (req, res) {
       req.flash("error", "User not found");
       return res.redirect("back");
     } else {
-      console.log(user);
-      return res.redirect("/users/create-new-password");
+      res.locals.forgottenuser = user.email;
+      return res.render("create_new_password");
     }
   });
+};
+module.exports.setnewpass = function (req, res) {
+  console.log(req.body.email);
+  console.log(req.body.password);
+  if (req.body.password == req.body.confirmpassword) {
+    User.findOneAndUpdate(
+      { email: req.body.email },
+      { password: req.body.password },
+      null,
+      function (err, user) {
+        console.log(user);
+        if (err) {
+          req.flash("error", "failed to update password");
+          return res.redirect("/");
+        } else {
+          req.flash("success", "User password updated");
+          return res.redirect("/users/sign-in");
+        }
+      }
+    );
+  }
 };
