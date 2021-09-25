@@ -129,11 +129,9 @@ module.exports.createnewpass = function (req, res) {
   });
 };
 module.exports.setnewpass = function (req, res) {
-  console.log(req.body.email);
-  console.log(req.body.password);
   if (req.body.password == req.body.confirmpassword) {
     User.findOneAndUpdate(
-      { email: req.body.email },
+      { email: req.body.email }, 
       { password: req.body.password },
       null,
       function (err, user) {
