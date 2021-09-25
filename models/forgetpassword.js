@@ -6,7 +6,7 @@ const passwordSchema = new mongoose.Schema(
       type: mongoose.Schema.Types.ObjectId,
       ref: "User",
     },
-    accsesToken: {
+    accessToken: {
       type: String,
       require: true,
     },

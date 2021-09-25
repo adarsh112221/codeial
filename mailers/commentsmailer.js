@@ -14,7 +14,7 @@ exports.newComment = (comment) => {
   // console.log("inside new comment mailer",comment);
   let htmlString = nodeMailer.rendertemplate(
     { comment: comment },
-    "/comments.js/new_comments.ejs"
+    "/comments/new_comments.ejs"
   ); //this is for the functioon we have with relative path
   nodeMailer.transpoter.sendMail(
     {
@@ -33,15 +33,3 @@ exports.newComment = (comment) => {
     }
   );
 };
-
-
-
-
-
-
-
-
-
-
-
-

@@ -40,7 +40,7 @@ router.get(
   usersController.createSession
 );
 router.get("/forget-password", usersController.Forgetpass);
-router.post("/new-passwordz", usersController.createnewpass);
+router.post("/new-password", usersController.createnewpass);
 router.post("/createnewpassword", usersController.setnewpass);
 
 module.exports = router;

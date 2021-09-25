@@ -1,4 +1,9 @@
 const User = require("../models/user");
+const crypto = require("crypto");
+const ForgetPassword = require("../models/forgetpassword");
+const queue = require("../config/kue");
+// const forgotPasswordMailer = require("../mailers/forgotpasswordmailer");
+const forgotpasswordWorker = require("../workers/forgot_password_email_worker");
 const fs = require("fs");
 const path = require("path");
 module.exports.profile = function (req, res) {
@@ -112,12 +117,33 @@ module.exports.Forgetpass = function (req, res) {
   return res.render("user_forget_password");
 };
 
-module.exports.createnewpass = function (req, res) {
-  User.findOne({ email: req.body.email }, function (err, user) {
-    if (err) {
-      console.log("error in finding the user!");
-      req.flash("error", "User not found");
-      return res.redirect("back");
+module.exports.createnewpass = async function (req, res) {
+  try {
+    let user = await User.findOne({ email: req.body.email });
+    let forpassword = await ForgetPassword.create({
+      user: user._id,
+      accessToken:crypto.randomBytes(20).toString("hex"),
+      isValid: true,
+    });
+    forpassword = await ForgetPassword.findOne({
+      user: user._id,
+    }).populate("user", "name email");
+
+    let job = queue.create("forgetemails", forpassword).save(function (err) {
+      if (err) {
+        console.log("Error in sending to the queue", err);
+        return;
+      }
+      console.log("job enqueued", job.id); //as soon as the job is created the job id is sotred in it
+    });
+
+    if (req.xhr) {
+      return res.status(200).json({
+        data: {
+          forpassword: forpassword,
+        },
+        message: "user found",
+      });
     }
     if (user == null) {
       req.flash("error", "User not found");
@@ -126,12 +152,16 @@ module.exports.createnewpass = function (req, res) {
       res.locals.forgottenuser = user.email;
       return res.render("create_new_password");
     }
-  });
+  } catch (err) {
+    console.log("error in finding the user!");
+    req.flash("error", "User not found");
+    return res.redirect("back");
+  }
 };
 module.exports.setnewpass = function (req, res) {
   if (req.body.password == req.body.confirmpassword) {
     User.findOneAndUpdate(
-      { email: req.body.email }, 
+      { email: req.body.email },
       { password: req.body.password },
       null,
       function (err, user) {
