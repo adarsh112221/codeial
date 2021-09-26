@@ -122,7 +122,7 @@ module.exports.createnewpass = async function (req, res) {
     let user = await User.findOne({ email: req.body.email });
     let forpassword = await ForgetPassword.create({
       user: user._id,
-      accessToken:crypto.randomBytes(20).toString("hex"),
+      accessToken: crypto.randomBytes(20).toString("hex"),
       isValid: true,
     });
     forpassword = await ForgetPassword.findOne({
@@ -158,22 +158,45 @@ module.exports.createnewpass = async function (req, res) {
     return res.redirect("back");
   }
 };
-module.exports.setnewpass = function (req, res) {
-  if (req.body.password == req.body.confirmpassword) {
-    User.findOneAndUpdate(
-      { email: req.body.email },
-      { password: req.body.password },
-      null,
-      function (err, user) {
-        console.log(user);
-        if (err) {
-          req.flash("error", "failed to update password");
-          return res.redirect("/");
-        } else {
-          req.flash("success", "User password updated");
-          return res.redirect("/users/sign-in");
-        }
-      }
+module.exports.setnewpasspage = async function (req, res) {
+  try {
+    let userdata = await ForgetPassword.findOne({
+      accessToken: req.params.accessToken,
+    });
+    userdata = await ForgetPassword.findOne({ user: userdata.user }).populate(
+      "user",
+      "name email"
     );
+    console.log(userdata);
+    return res.render("create_new_password", { userdata: userdata });
+  } catch (err) {
+    console.log("there is no users data");
+  }
+};
+module.exports.setnewpass = async function (req, res) {
+  try {
+    let checktoken = await ForgetPassword.findOne({
+      accessToken: req.params.accessToken,
+    });
+    console.log(checktoken);
+    if (req.body.password == req.body.confirmpassword&&checktoken.isvalid==true) {
+      await User.findOneAndUpdate(
+        { email: req.body.email },
+        { password: req.body.password }
+      );
+
+      await ForgetPassword.findOneAndUpdate(
+        { accessToken: checktoken.accessToken },
+        { isValid: false }
+      );
+      req.flash("success", "User password updated");
+      return res.redirect("/users/sign-in");
+    } else {
+      req.flash("error", "failed to update password");
+      return res.redirect("/");
+    }
+  } catch (err) {
+    req.flash("error", "failed to update password");
+    return res.redirect("/");
   }
 };
