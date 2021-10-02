@@ -1,4 +1,3 @@
-
 {
   //method to submit the form data using ajax
   let createPost = function () {
@@ -9,20 +8,18 @@
         type: "post",
         url: "/posts/create",
         data: newPostForm.serialize(),
-        success: function(data){
+        success: function (data) {
           new Noty({
-            theme: 'relax',
+            theme: "relax",
             text: "post created succefully",
-            type: 'success',
-            layout: 'topRight',
-            timeout: 1500
-            
-        }).show();
+            type: "success",
+            layout: "topRight",
+            timeout: 1500,
+          }).show();
           let newPost = newPostDom(data.data.post);
           $("#posts-list-container>ul").prepend(newPost);
           deletePost($(" .delete-post-button", newPost)); //this object has this class inside it
-           createComment(data.data.post._id);
-
+          createComment(data.data.post._id);
         },
         error: function (error) {
           console.log(error.responseText);
@@ -45,7 +42,7 @@
   </small>
   </p>
   <div class="post-comments">
-   <form id="new-${ post._id }-comments-form" action="/comments/create" method="POST">
+   <form id="new-${post._id}-comments-form" action="/comments/create" method="POST">
    <input type="text" name="content" placeholder="Type Here To Add Comment ...">
    <input type="hidden" value="${post._id}" name="post">
    <input type="submit" value="Add Comment">
@@ -66,14 +63,13 @@
         url: $(deleteLink).prop("href"),
         success: function (data) {
           new Noty({
-            theme: 'relax',
+            theme: "relax",
             text: "post deleted",
-            type: 'success',
-            layout: 'topRight',
-            timeout: 1500
-            
-        }).show();
-        $(`#post-${data.data.post_id}`).remove();
+            type: "success",
+            layout: "topRight",
+            timeout: 1500,
+          }).show();
+          $(`#post-${data.data.post_id}`).remove();
         },
         error: function (error) {
           console.log(error.responseText);
@@ -81,23 +77,17 @@
       });
     });
   };
-  convertdeletetoAjax=function()
-  {
-    $('#posts-list-container>ul>li').each(function()
-    {
-      let self=$(this);
-      let deleteButton=$(' .delete-post-button', self);
+  convertdeletetoAjax = function () {
+    $("#posts-list-container>ul>li").each(function () {
+      let self = $(this);
+      let deleteButton = $(" .delete-post-button", self);
       deletePost(deleteButton);
-      let postId = self.prop('id').split("-")[1];
+      let postId = self.prop("id").split("-")[1];
       convertdeletetoAjax1(postId);
       createComment(postId);
-    })
-
-  }
-  
-  
+    });
+  };
   createPost();
   convertdeletetoAjax();
   createComment();
-
 }

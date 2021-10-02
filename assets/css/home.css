@@ -8,3 +8,11 @@
     width: 30%;
     padding: 10px;
     border-left: 1px solid lightgray; }
+  #home-container #post-user-likes {
+    font-weight: 900;
+    font-size: x-small;
+    cursor: pointer; }
+  #home-container #comment-user-likes {
+    font-weight: 900;
+    font-size: x-small;
+    cursor: pointer; }
