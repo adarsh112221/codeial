@@ -1,23 +1,15 @@
-var postlikes = document.getElementsByClassName("post-user-likes");
-var postlikesvalue = document.getElementsByClassName("post-user-likes-value");
-var postlikescount = 0;
-postlikes.addEventListener("click", function () {
-  if (postlikescount == 0) {
-    postlikescount++;
-  } else {
-    postlikescount--;
-  }
-  postlikesvalue.innerText = postlikescount;
-});
+$(".likes").each(function () {
+  $(this).on("click", function () {
+    console.log("hello");
+    let likevalue = $(this).find(' .post-likes-value');
+    if(likevalue.text()==0)
+    {
+      likevalue.text('1')
+      console.log(likevalue.text());
+    }
+    else{
+      likevalue.text('0')
 
-var commentlikes = document.getElementsByClassName("comment-user-likes");
-var commentlikesvalue = document.getElementsByClassName("comment-user-likes-value");
-var commentlikescount = 0;
-commentlikes.addEventListener("click", function () {
-  if (commentlikescount == 0) {
-    commentlikescount++;
-  } else {
-    commentlikescount--;
-  }
-  commentlikesvalue.innerText = commentlikescount;
+    }
+  });
 });

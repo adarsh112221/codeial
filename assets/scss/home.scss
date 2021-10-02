@@ -1,27 +1,19 @@
-#home-container{
-    display: flex;
-    height: 100%;
+#home-container {
+  display: flex;
+  height: 100%;
 
-    #feed-posts{
-        width: 70%;
-        padding:10px
-    }
-    #user-friends{
-        width:30%;
-        padding: 10px;
-        border-left: 1px solid lightgray;
-    }
-    #post-user-likes
-    {
-        font-weight:900;
-        font-size: x-small;
-        cursor:pointer;
-
-    }
-    #comment-user-likes
-    {
-        font-weight:900;
-        font-size: x-small;
-        cursor:pointer;
-    }
+  #feed-posts {
+    width: 70%;
+    padding: 10px;
+  }
+  #user-friends {
+    width: 30%;
+    padding: 10px;
+    border-left: 1px solid lightgray;
+  }
+  .likes {
+    font-weight: 900;
+    font-size: x-small;
+    cursor: pointer;
+  }
 }
