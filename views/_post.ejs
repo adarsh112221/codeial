@@ -10,8 +10,12 @@
       <%= post.user.name %>
       <small class="post-user-likes likes">
         &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-        <small class="post-likes-value">0</small> likes</small
-      >
+        <%if(locals.user){%>
+        <a class="post-likes-value" href="/likes/toggle?post_id=<%=post._id%>?type=Post">0 likes</a></small>
+        <%}else{%>
+     
+        <span class="post-likes-value-show">0</span> likes</small>
+        <%}%>
     </small>
   </p>
   <div class="post-comments">
