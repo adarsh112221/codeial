@@ -11,10 +11,10 @@
       <small class="post-user-likes likes">
         &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
         <%if(locals.user){%>
-        <a class="post-likes-value" href="/likes/toggle?post_id=<%=post._id%>?type=Post">0 likes</a></small>
+        <a class="likes-value" data-likes="<%= post.likes.length %>" href="/likes/toggle/?id=<%=post._id%>&type=Post" ><%= post.likes.length %> Likes</a></small>
         <%}else{%>
      
-        <span class="post-likes-value-show">0</span> likes</small>
+        <span class="post-likes-value-show"><%= post.likes.length %></span> Likes</small>
         <%}%>
     </small>
   </p>

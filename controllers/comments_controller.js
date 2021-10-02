@@ -1,5 +1,6 @@
 const Comment = require("../models/comment");
 const Post = require("../models/post");
+const Like = require("../models/like");
 // const commentsMailers = require("../mailers/commentsmailer");
 const queue = require("../config/kue");
 const commentEmailWorker = require("../workers/comment_email_worker.js");
@@ -67,7 +68,14 @@ module.exports.destroy = function (req, res) {
     if (req.user.id == comment.user) {
       let postId = comment.post;
       comment.remove(); //to remove the comment from the db
-
+      Like.deleteMany(
+        { likeable: comment._id, onModel: "Comment" },
+        function (err) {
+          if (err) {
+            console.log(err);
+          }
+        }
+      );
       if (req.xhr) {
         return res.status(200).json({
           data: {
