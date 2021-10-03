@@ -1,11 +1,13 @@
 const User = require("../models/user");
 const crypto = require("crypto");
 const ForgetPassword = require("../models/forgetpassword");
+const Friendship = require("../models/friendship");
 const queue = require("../config/kue");
 // const forgotPasswordMailer = require("../mailers/forgotpasswordmailer");
 const forgotpasswordWorker = require("../workers/forgot_password_email_worker");
 const fs = require("fs");
 const path = require("path");
+const { monitorEventLoopDelay } = require("perf_hooks");
 module.exports.profile = function (req, res) {
   User.findById(req.params.id, function (err, user) {
     res.render("user_profile", {
@@ -179,7 +181,10 @@ module.exports.setnewpass = async function (req, res) {
       accessToken: req.params.accessToken,
     });
     console.log(checktoken);
-    if (req.body.password == req.body.confirmpassword&&checktoken.isvalid==true) {
+    if (
+      req.body.password == req.body.confirmpassword &&
+      checktoken.isvalid == true
+    ) {
       await User.findOneAndUpdate(
         { email: req.body.email },
         { password: req.body.password }
@@ -198,5 +203,34 @@ module.exports.setnewpass = async function (req, res) {
   } catch (err) {
     req.flash("error", "failed to update password");
     return res.redirect("/");
+  }
+};
+module.exports.addfriends = async function (req, res) {
+  try {
+    let notfriends = true;
+    let user = await User.findById(req.query.from_user);
+    let existingfriend = await Friendship.findOne({
+      from_user: req.query.from_user,
+      to_user: req.user.to_user,
+    });
+    if (existingfriend) {
+      notfriends = false;
+      user.friendship.pull(existingfriend._id);
+      user.save();
+      existingfriend.remove();
+    } else {
+      user.friendship.push(existingfriend._id);
+      user.save();
+    }
+    return res.status(200).json({
+      message: "Request unsucessful!",
+      data: {
+        friendshipstatus: notfriends,
+      },
+    });
+  } catch (err) {
+    return res.status(500).json({
+      message: "Request unsucessful!",
+    });
   }
 };
