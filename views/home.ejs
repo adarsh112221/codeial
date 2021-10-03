@@ -23,13 +23,14 @@
   <section id="user-friends">
     <div>
       <h4>Friends</h4>
-  
+      <%if(locals.user){%>
       <%for(u of user.firendships){%>
 
       <p>
         <a href="/users/profile/<%=u.id%>"><%=u%></a>
       </p>
 
+      <%}%>
       <%}%>
     </div>
     <div>

@@ -43,6 +43,7 @@ router.get("/forget-password", usersController.Forgetpass);
 router.post("/new-password", usersController.createnewpass);
 router.get("/getcreatenewpassword/:accessToken", usersController.setnewpasspage);
 router.post("/createnewpassword/:accessToken", usersController.setnewpass);
+router.get("/addfriend",usersController.Forgetpass);
 
 module.exports = router;
 

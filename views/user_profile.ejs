@@ -1,7 +1,6 @@
 <link rel="stylesheet" href="/css/user_profile.css" />
 
-
-<img src="<%=user.avatar%>" alt="<%user.name%>" width="100">
+<img src="<%=user.avatar%>" alt="<%user.name%>" width="100" />
 
 <% if(user.id==profile_user.id){ %>
 <!-- if user matches then show the forms else only show profile info -->
@@ -34,5 +33,11 @@
 
 <p><%=profile_user.name%></p>
 <p><%=profile_user.email%></p>
+<button id="add-friends-button">
+  <a id="add-friends-button-link" href="/users/addfriend?from_user=<%=user.id%>&to_user=<%=profile_user.id%>"
+    >Add Friend</a
+  >
+</button>
 
 <%}%>
+<script src="/js/friendship.js"></script>
