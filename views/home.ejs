@@ -20,16 +20,28 @@
       </ul>
     </div>
   </section>
-
   <section id="user-friends">
-    <h4>Friends</h4>
-    <%for(u of all_users){%>
+    <div>
+      <h4>Friends</h4>
+  
+      <%for(u of user.firendships){%>
 
-    <p>
-      <a href="/users/profile/<%=u.id%>"><%=u.name%></a>
-    </p>
+      <p>
+        <a href="/users/profile/<%=u.id%>"><%=u%></a>
+      </p>
 
-    <%}%>
+      <%}%>
+    </div>
+    <div>
+      <h4>All Users</h4>
+      <%for(u of all_users){%>
+
+      <p>
+        <a href="/users/profile/<%=u.id%>"><%=u.name%></a>
+      </p>
+
+      <%}%>
+    </div>
   </section>
 </div>
 <script src="/js/home_comments.js"></script>
