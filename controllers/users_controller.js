@@ -3,11 +3,10 @@ const crypto = require("crypto");
 const ForgetPassword = require("../models/forgetpassword");
 const Friendship = require("../models/friendship");
 const queue = require("../config/kue");
-// const forgotPasswordMailer = require("../mailers/forgotpasswordmailer");
+const forgotPasswordMailer = require("../mailers/forgotpasswordmailer");
 const forgotpasswordWorker = require("../workers/forgot_password_email_worker");
 const fs = require("fs");
 const path = require("path");
-const { monitorEventLoopDelay } = require("perf_hooks");
 module.exports.profile = function (req, res) {
   User.findById(req.params.id, function (err, user) {
     res.render("user_profile", {
@@ -208,22 +207,36 @@ module.exports.setnewpass = async function (req, res) {
 module.exports.addfriends = async function (req, res) {
   try {
     let notfriends = true;
-    let user = await User.findById(req.query.from_user);
+    let user = await User.findById(req.query.from_user).populate({
+      path: "friendships",
+      populate:{
+        path:"to_user"
+      }
+    });
+    console.log(user)
     let existingfriend = await Friendship.findOne({
       from_user: req.query.from_user,
-      to_user: req.user.to_user,
+      to_user: req.query.to_user,
     });
     if (existingfriend) {
       notfriends = false;
-      user.friendship.pull(existingfriend._id);
+      user.friendships.pull(existingfriend._id);
       user.save();
       existingfriend.remove();
     } else {
-      user.friendship.push(existingfriend._id);
+      await Friendship.create({
+        from_user: req.query.from_user,
+        to_user: req.query.to_user,
+      });
+      let newfriend1 = await Friendship.findOne({
+        from_user: req.query.from_user,
+        to_user: req.query.to_user,
+      }).populate("to_user", "name email");
+      user.friendships.push(newfriend1);
       user.save();
     }
     return res.status(200).json({
-      message: "Request unsucessful!",
+      message: "Request sucessful!",
       data: {
         friendshipstatus: notfriends,
       },

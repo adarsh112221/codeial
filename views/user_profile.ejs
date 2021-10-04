@@ -29,12 +29,14 @@
   <input type="submit" value="update" />
 </form>
 
-<%}else{%>
-
+<%}else{%> 
 <p><%=profile_user.name%></p>
 <p><%=profile_user.email%></p>
+
 <button id="add-friends-button">
-  <a id="add-friends-button-link" href="/users/addfriend?from_user=<%=user.id%>&to_user=<%=profile_user.id%>"
+  <a
+    id="add-friends-button-link"
+    href="/users/addfriend?from_user=<%=user.id%>&to_user=<%=profile_user.id%>"
     >Add Friend</a
   >
 </button>
