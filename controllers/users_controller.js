@@ -7,12 +7,17 @@ const forgotPasswordMailer = require("../mailers/forgotpasswordmailer");
 const forgotpasswordWorker = require("../workers/forgot_password_email_worker");
 const fs = require("fs");
 const path = require("path");
-module.exports.profile = function (req, res) {
-  User.findById(req.params.id, function (err, user) {
-    res.render("user_profile", {
-      title: "User Profile",
-      profile_user: user,
-    });
+module.exports.profile = async function (req, res) {
+  let user = await User.findById(req.params.id);
+  let friends = await Friendship.find({ from_user: req.user.id }).populate(
+    "to_user",
+    "name email"
+  );
+  console.log(friends);
+  res.render("user_profile", {
+    title: "User Profile",
+    profile_user: user,
+    friends: friends,
   });
 };
 
@@ -209,11 +214,11 @@ module.exports.addfriends = async function (req, res) {
     let notfriends = true;
     let user = await User.findById(req.query.from_user).populate({
       path: "friendships",
-      populate:{
-        path:"to_user"
-      }
+      populate: {
+        path: "to_user",
+      },
     });
-    console.log(user)
+    console.log(user);
     let existingfriend = await Friendship.findOne({
       from_user: req.query.from_user,
       to_user: req.query.to_user,

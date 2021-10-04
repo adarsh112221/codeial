@@ -32,13 +32,29 @@
 <%}else{%> 
 <p><%=profile_user.name%></p>
 <p><%=profile_user.email%></p>
+<%locals.isfriends=false%>
+<%for(u of friends){%>
 
+<%if(profile_user._id==u.to_user.id){%>
+  <%locals.isfriends=true%>
+<%}%>
+
+<%}%>
 <button id="add-friends-button">
+  <%if(locals.isfriends==true){%>
   <a
+    id="add-friends-button-link"
+    href="/users/addfriend?from_user=<%=user.id%>&to_user=<%=profile_user.id%>"
+    >Remove Friend</a
+  >
+  <%}else{%>
+    <a
     id="add-friends-button-link"
     href="/users/addfriend?from_user=<%=user.id%>&to_user=<%=profile_user.id%>"
     >Add Friend</a
   >
+
+  <%}%>
 </button>
 
 <%}%>
