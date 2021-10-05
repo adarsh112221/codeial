@@ -1,0 +1,30 @@
+.outer-box {
+  height: 230px;
+  width: 220px;
+  border: 3px dotted black;
+  position: fixed;
+  right: 0%;
+  bottom: 0%; }
+  .outer-box .message_sending_tool {
+    position: relative;
+    top: 35%; }
+    .outer-box .message_sending_tool input {
+      padding: 10px;
+      width: 155px;
+      font-size: 12px;
+      border-radius: 3px; }
+    .outer-box .message_sending_tool button {
+      padding: 10px;
+      font-weight: 600;
+      background-color: #bbeebb;
+      border-radius: 6px; }
+  .outer-box .message {
+    font-size: 23px;
+    padding: 4px;
+    display: inline-block;
+    margin: 10px; }
+  .outer-box .message:nth-child(2n) {
+    background-color: #76da76;
+    margin-left: 50%; }
+  .outer-box .message:nth-child(2n+1) {
+    background-color: #10f8d1; }

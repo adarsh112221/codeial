@@ -9,6 +9,11 @@ header {
     margin: 0px;
     margin-top: 7px;
     height: 35px; }
+    header h1 a {
+      color: white;
+      text-decoration: none;
+      font-size: 40px;
+      font-weight: 600; }
   header ul {
     display: flex;
     list-style: none; }

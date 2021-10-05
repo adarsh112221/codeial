@@ -22,10 +22,12 @@ module.exports.home = async function (req, res) {
           path: "user",
         },
       });
-    let friends = await Friends.find({ from_user: req.user.id }).populate(
+      let friends
+      if(req.user){
+     friends = await Friends.find({ from_user: req.user.id }).populate(
       "to_user",
       "name email"
-    );
+    );}
     let users = await User.find({});
     return res.render("home", {
       title: " Home",

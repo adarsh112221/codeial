@@ -1,0 +1,40 @@
+.outer-box {
+  height: 230px;
+  width: 220px;
+  border: 3px dotted black;
+  position: fixed;
+  right: 0%;
+  bottom: 0%;
+  .message_sending_tool {
+    position: relative;
+    top: 35%;
+    input {
+      padding: 10px;
+      width: 155px;
+      font-size: 12px;
+      border-radius: 3px;
+    }
+    button {
+      padding: 10px;
+      font-weight: 600;
+      background-color: rgb(187, 238, 187);
+      border-radius: 6px;
+    }
+  }
+  .message {
+      
+      font-size: 23px;
+      padding: 4px;
+      display: inline-block;
+      margin: 10px;
+  }
+  .message:nth-child(2n)
+  {
+    background-color: rgb(118, 218, 118);
+    margin-left:50% ;
+  }
+  .message:nth-child(2n+1)
+  {
+    background-color: rgb(16, 248, 209);
+  }
+}
