@@ -7,34 +7,39 @@
   bottom: 0%;
   .message_sending_tool {
     position: relative;
-    top: 35%;
+    display: flex;
+    width: 100%;
+    flex-direction: row;
+    bottom:-10%;
     input {
       padding: 10px;
-      width: 155px;
+      width: 70%;
       font-size: 12px;
       border-radius: 3px;
     }
     button {
       padding: 10px;
       font-weight: 600;
+      width: 30%;
       background-color: rgb(187, 238, 187);
       border-radius: 6px;
     }
   }
+  ul
+  {
+    padding: 0px;
+  }
   .message {
-      
-      font-size: 23px;
-      padding: 4px;
-      display: inline-block;
-      margin: 10px;
+    font-size: 23px;
+    padding: 4px;
+    display: inline-block;
+    margin: 10px;
   }
-  .message:nth-child(2n)
-  {
+  .other_message {
     background-color: rgb(118, 218, 118);
-    margin-left:50% ;
+    margin-left: 50%;
   }
-  .message:nth-child(2n+1)
-  {
+  .my_message {
     background-color: rgb(16, 248, 209);
   }
 }

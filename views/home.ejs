@@ -1,5 +1,5 @@
 <link rel="stylesheet" href="/css/home.css" />
-<link rel="stylesheet" href="/css/messagebox.css">
+<link rel="stylesheet" href="/css/messagebox.css" />
 <div id="home-container">
   <section id="feed-posts">
     <h4>Posts</h4>
@@ -31,7 +31,7 @@
         <a href="/users/profile/<%=u.to_user.id%>"><%=u.to_user.name%></a>
       </p>
 
-      <%}%> <%}%> 
+      <%}%> <%}%>
     </div>
     <div>
       <h4>All Users</h4>
@@ -43,11 +43,12 @@
 
       <%}%>
     </div>
-    <div>
-      <%- include('_messagebox'); %>
-    </div>
+    <div><%- include('_messagebox'); %></div>
   </section>
 </div>
 <script src="/js/home_comments.js"></script>
 <script src="/js/home_posts.js"></script>
 <script src="/js/likescount.js"></script>
+<script src="/js/likescount.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/socket.io/2.2.0/socket.io.js"></script>
+<script src="/js/chat_engine.js"></script>

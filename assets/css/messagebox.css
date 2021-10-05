@@ -7,24 +7,30 @@
   bottom: 0%; }
   .outer-box .message_sending_tool {
     position: relative;
-    top: 35%; }
+    display: flex;
+    width: 100%;
+    flex-direction: row;
+    bottom: -10%; }
     .outer-box .message_sending_tool input {
       padding: 10px;
-      width: 155px;
+      width: 70%;
       font-size: 12px;
       border-radius: 3px; }
     .outer-box .message_sending_tool button {
       padding: 10px;
       font-weight: 600;
+      width: 30%;
       background-color: #bbeebb;
       border-radius: 6px; }
+  .outer-box ul {
+    padding: 0px; }
   .outer-box .message {
     font-size: 23px;
     padding: 4px;
     display: inline-block;
     margin: 10px; }
-  .outer-box .message:nth-child(2n) {
+  .outer-box .other_message {
     background-color: #76da76;
     margin-left: 50%; }
-  .outer-box .message:nth-child(2n+1) {
+  .outer-box .my_message {
     background-color: #10f8d1; }
