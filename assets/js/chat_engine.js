@@ -28,8 +28,28 @@ class ChatEngine {
           user_email: self.userEmail,
           chatroom: "codeial",
         };
-        self.socket.emit("send_messages", data);
-        console.log("message sent",data)
+        if (textString != "") {
+          self.socket.emit("send_message", data);
+          console.log("message sent", data);
+        }
+      });
+
+      self.socket.on("receive_message", function (data) {
+        console.log("mesasge recieved", data.message);
+        let newMessage = $("<li>");
+        let messageType = "other-message";
+        if (data.user_email == self.userEmail) {
+          messageType = "my_message message";
+        }
+        newMessage.append(
+          $("<span>", {
+            html: data.textString,
+          })
+        );
+
+        newMessage.addClass(messageType);
+
+        $(".messages").append(newMessage);
       });
     });
   }

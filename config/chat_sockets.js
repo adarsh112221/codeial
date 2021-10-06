@@ -11,6 +11,10 @@ module.exports.chatSocket = function (socketServer) {
       socket.join(data.chatroom);
       io.in(data.chatroom).emit('user_joined',data)//this is to emit in that specific chat room that the user have joined in(we also have to create a on for this)
     })
+    socket.on('send_message',function(data)
+    {
+    io.in(data.chatroom).emit('receive_message',data)
+    })
     
   });
  

@@ -25,15 +25,23 @@
       border-radius: 6px;
     }
   }
-  ul
+  .messages
   {
-    padding: 0px;
+    height: 167px;
+    overflow: scroll;
+    display: flex;
+    flex-direction: column;
+    padding: 0%;
+    margin: 0%;
+    -webkit-scrollbar { width: 0 !important }
   }
   .message {
     font-size: 23px;
     padding: 4px;
     display: inline-block;
     margin: 10px;
+    width: fit-content;
+   
   }
   .other_message {
     background-color: rgb(118, 218, 118);

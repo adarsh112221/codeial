@@ -22,13 +22,21 @@
       width: 30%;
       background-color: #bbeebb;
       border-radius: 6px; }
-  #outer-box ul {
-    padding: 0px; }
+  #outer-box .messages {
+    height: 167px;
+    overflow: scroll;
+    display: flex;
+    flex-direction: column;
+    padding: 0%;
+    margin: 0%; }
+    #outer-box .messages -webkit-scrollbar {
+      width: 0 !important; }
   #outer-box .message {
     font-size: 23px;
     padding: 4px;
     display: inline-block;
-    margin: 10px; }
+    margin: 10px;
+    width: fit-content; }
   #outer-box .other_message {
     background-color: #76da76;
     margin-left: 50%; }
