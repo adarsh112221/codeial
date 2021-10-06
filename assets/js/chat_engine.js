@@ -20,6 +20,17 @@ class ChatEngine {
       self.socket.on("user_joined", function (data) {
         console.log("a user joined", data);
       });
+
+      $("#send-message").on("click", function () {
+        let textString = $("#text-message").val();
+        let data = {
+          textString: textString,
+          user_email: self.userEmail,
+          chatroom: "codeial",
+        };
+        self.socket.emit("send_messages", data);
+        console.log("message sent",data)
+      });
     });
   }
 }
