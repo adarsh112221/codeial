@@ -1,4 +1,5 @@
-class ChatEngine {  //this class will send a request for connection
+class ChatEngine {
+  //this class will send a request for connection
   constructor(chatBoxId, userEmail) {
     this.chatBox = $(`#${chatBoxId}`);
     this.userEmail = userEmail;
@@ -9,8 +10,16 @@ class ChatEngine {  //this class will send a request for connection
     }
   }
   connectionHandler() {
+    let self = this;
     this.socket.on("connect", function () {
-      console.log("the connections is established using sockets");     //here we are inisiating the connections
+      console.log("the connections is established using sockets"); //here we are inisiating the connections
+      self.socket.emit("join_room", {
+        user_email: self.userEmail,
+        chatroom: "codeial",
+      });
+      self.socket.on("user_joined", function (data) {
+        console.log("a user joined", data);
+      });
     });
   }
 }
