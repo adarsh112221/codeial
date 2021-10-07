@@ -1,6 +1,6 @@
 const express = require("express");
 const kue = require("kue");
-const dev = require("./config/enviornment");
+const env = require("./config/enviornment");
 const cookieparser = require("cookie-parser");
 const app = express();
 const port = 8000;
@@ -22,11 +22,10 @@ const chatSocket = require("./config/chat_sockets").chatSocket(chatServer);
 chatServer.listen(5000);
 console.log("chat server is listing to port 5000");
 const path = require("path");
-const env = require("./config/enviornment");
 app.use(
   sassMiddleware({
-    src: path.join(__dirname, env.asset_path, "/scss"),
-    dest: path.join(__dirname, env.asset_path, "/css"),
+    src: path.join(__dirname, env.asset_path, "scss"),
+    dest: path.join(__dirname, env.asset_path, "css"),
     debug: true,
     outputStyle: "extended",
     prefix: "/css",
@@ -35,7 +34,7 @@ app.use(
 
 app.use(express.urlencoded({ extended: false }));
 app.use(cookieparser());
-app.use(express.static(dev.asset_path));
+app.use(express.static(env.asset_path));
 //makes the upload path avilabe to the browser
 app.use("/uploads", express.static(__dirname + "/uploads"));
 app.use(expressLayouts);

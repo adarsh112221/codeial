@@ -4,7 +4,7 @@
 //and put in here
 const development = {
   name: "enviornment",
-  asset_path: "/assets",
+  asset_path: "assets",
   session_cookie_key: "blahsomething",
   db: "codeial_development",
   smtp: {
