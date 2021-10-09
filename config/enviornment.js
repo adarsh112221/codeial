@@ -3,7 +3,7 @@
 //we nedd to take passwords from difffrent places that we have taken in and also static files
 //and put in here
 const development = {
-  name: "enviornment",
+  name: "development",
   asset_path: "assets",
   session_cookie_key: "blahsomething",
   db: "codeial_development",
@@ -25,10 +25,10 @@ const development = {
   jwt_secret: "codeial",
 };
 const production = {
-  name: "enviornment",
-  asset_path: process.env.CODEIAL_ASSETS_PATH,
+  name: "production",
+  asset_path: process.env.CODEIAL_ASSET_PATH,
   session_cookie_key: process.env.CODEIAL_SESSION_COOKI,
-  db: "codeial_production",
+  db: process.env.CODEIAL_DB,
   smtp: {
     service: "gmail",
     host: "smtp.gmail.com",
@@ -39,10 +39,11 @@ const production = {
       pass: process.env.CODEIAL_AUTH_PASSWORD,
     },
   },
-  google_client_id:
-    "813904193880-cb8se9t7a3nsjkk3g0canijqt2b1nsrt.apps.googleusercontent.com",
-  google_client_secret: "vEzH-632MOKI1jJX8kk4rXwa",
-  google_client_call_back_url: "http://codeial.com/users/auth/google/callback",
+  google_client_id: process.env.CODEIAL_GOOGLE_CLIENT_ID,
+  google_client_secret: process.env.CODEIAL_GOOGLE_CLIENT_SECRET,
+  google_client_call_back_url: process.env.CODEIAL_GOOGLE_CALLBACK_URL,
   jwt_secret: process.env.CODEIAL_JWT_SECRET,
 };
-module.exports = development;
+module.exports = eval(process.env.CODEIAL_ENVIRONMENT == undefined)
+  ? development
+  : eval(process.env.CODEIAL_ENVIRONMENT);
