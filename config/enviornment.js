@@ -2,6 +2,18 @@
 //development and production
 //we nedd to take passwords from difffrent places that we have taken in and also static files
 //and put in here
+const fs = require("fs");
+const rfs = require("rotating-file-stream");
+const path = require("path");
+
+const logDirectory = path.join(__dirname, "../production_log");
+fs.existsSync(logDirectory) || fs.mkdirSync(logDirectory);
+//this one is for creating file
+const accessLogStream = rfs.createStream("access.log", {
+  interval: "1d",
+  path: logDirectory,
+}); ///this is for rotating file interval will be 1d
+
 const development = {
   name: "development",
   asset_path: "assets",
@@ -23,6 +35,10 @@ const development = {
   google_client_call_back_url:
     "http://localhost:8000/users/auth/google/callback",
   jwt_secret: "codeial",
+  morgan: {
+    mode: "dev",
+    options: { stream: accessLogStream },
+  },
 };
 const production = {
   name: "production",
@@ -43,6 +59,10 @@ const production = {
   google_client_secret: process.env.CODEIAL_GOOGLE_CLIENT_SECRET,
   google_client_call_back_url: process.env.CODEIAL_GOOGLE_CALLBACK_URL,
   jwt_secret: process.env.CODEIAL_JWT_SECRET,
+  morgan: {
+    mode: "combined",
+    options: { stream: accessLogStream },
+  },
 };
 module.exports = eval(process.env.CODEIAL_ENVIRONMENT == undefined)
   ? development
