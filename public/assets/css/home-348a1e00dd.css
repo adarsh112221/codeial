@@ -1,0 +1,15 @@
+#home-container {
+  display: flex;
+  height: 100%; }
+  #home-container #feed-posts {
+    width: 70%;
+    padding: 10px; }
+  #home-container #user-friends {
+    padding: 10px;
+    border-left: 1px solid lightgray;
+    display: flex;
+    flex-direction: column; }
+  #home-container .likes {
+    font-weight: 900;
+    font-size: x-small;
+    cursor: pointer; }

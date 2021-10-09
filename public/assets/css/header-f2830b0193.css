@@ -1,0 +1,29 @@
+header {
+  font-family: sans-serif;
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+  background-color: #1862ec; }
+  header h1 {
+    color: white;
+    margin: 0px;
+    margin-top: 7px;
+    height: 35px; }
+    header h1 a {
+      color: white;
+      text-decoration: none;
+      font-size: 40px;
+      font-weight: 600; }
+  header ul {
+    display: flex;
+    list-style: none; }
+    header ul a {
+      color: white;
+      text-decoration: none;
+      font-size: 19px;
+      font-weight: 600; }
+      header ul a:hover {
+        color: #beafaf; }
+    header ul li {
+      padding: 0px 7px 0px 7px;
+      margin-top: 2px; }
