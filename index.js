@@ -4,8 +4,8 @@ const env = require("./config/enviornment");
 const logger = require("morgan");
 const cookieparser = require("cookie-parser");
 const app = express();
+require("./config/viewhelpers")(app);
 const port = 8000;
-require('./config/viewhelpers')(app)
 const expressLayouts = require("express-ejs-layouts");
 const db = require("./config/mongoose");
 //used for session cookie

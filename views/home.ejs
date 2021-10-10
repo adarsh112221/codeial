@@ -1,5 +1,8 @@
-<link rel="stylesheet" href="/css/home.css" />
-<link rel="stylesheet" href="/css/messagebox.css" />
+<!-- <link rel="stylesheet" href="/css/home.css" /> -->
+<!-- <link rel="stylesheet" href="/css/messagebox.css" /> -->
+<link rel="stylesheet" type="text/css" href="<%= assetPath('css/home.css') %>">
+<link rel="stylesheet" type="text/css" href="<%= assetPath('css/messagebox.css') %>">
+
 <div id="home-container">
   <section id="feed-posts">
     <h4>Posts</h4>
@@ -46,13 +49,20 @@
     <div><%- include('_messagebox'); %></div>
   </section>
 </div>
-<script src="/js/home_comments.js"></script>
-<script src="/js/home_posts.js"></script>
-<script src="/js/likescount.js"></script>
-<script src="/js/likescount.js"></script>
+<!-- <script src="/js/home_comments.js"></script> -->
+<script src="<%= assetPath('js/home_comments.js') %>" ></script>
+<!-- <script src="/js/home_posts.js"></script> -->
+<script src="<%= assetPath('js/home_posts.js') %>" ></script>
+
+<!-- <script src="/js/likescount.js"></script> -->
+<!-- <script src="/js/likescount.js"></script> -->
+<script src="<%= assetPath('js/likescount.js') %>" ></script>
+
 <script src="https://cdnjs.cloudflare.com/ajax/libs/socket.io/2.2.0/socket.io.js"></script>
 <!-- <script src="https://cdn.jsdelivr.net/npm/socket.io@4.2.0/dist/index.min.js"></script> -->
-<script src="/js/chat_engine.js"></script>
+<!-- <script src="/js/chat_engine.js"></script> -->
+<script src="<%= assetPath('js/chat_engine.js') %>" ></script>
+
 <%if(locals.user){%>
 <script>
 new ChatEngine('outer-box','<%=locals.user.email%>')
