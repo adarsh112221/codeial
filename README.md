@@ -1,5 +1,4 @@
 # codeial
-<img src="https://img.shields.io/github/issues/parikshit223933/Comspace-Express"> <img src="https://img.shields.io/badge/Dev-InProgress-orange">
 
 A Social media Web Application.
 
